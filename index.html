@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Kunkun Wallet</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .loader-container {
+      text-align: center;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: #3498db;
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .step {
+      position: relative;
+      text-align: center;
+      width: 25%;
+    }
+
+    .step.active {
+      color: #3498db;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="loader-container">
+    <h2>Kunkun Wallet</h2>
+    <div class="loader"></div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+    <div class="step-indicator">
+      <div class="step" id="step1">Initialize</div>
+      <div class="step" id="step2">Check Port</div>
+      <div class="step" id="step3">Setup Server</div>
+      <div class="step" id="step4">Launch</div>
+    </div>
+    <p class="status" id="status-text">Initializing service...</p>
+  </div>
+  <script>
+    // Update progress bar and status text
+    function updateProgress(percent, statusText, activeStep) {
+      document.getElementById('progress').style.width = percent + '%';
+      document.getElementById('status-text').textContent = statusText;
+
+      // Update step indicators
+      document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+      document.getElementById('step' + activeStep).classList.add('active');
+    }
+
+    window.onload = () => {
+      // Initial progress update
+      updateProgress(10, 'Initializing application...', 1);
+
+
+      const path = require('path')
+      const express = require('express')
+      const outDir = path.join(process.cwd(), 'app')
+      let port = 3102
+      const net = require('net')
+
+
+      // Check if port is in use
+      const checkPort = (port) => {
+        updateProgress(30, `Checking if port ${port} is available...`, 2);
+        return new Promise((resolve) => {
+          const server = net.createServer()
+          server.once('error', () => {
+            // Port is in use
+            updateProgress(30, `Port ${port} is in use, will try another port...`, 2);
+            resolve(false)
+          })
+          server.once('listening', () => {
+            // Port is available
+            updateProgress(40, `Port ${port} is available!`, 2);
+            server.close()
+            resolve(true)
+          })
+          server.listen(port, '127.0.0.1')
+        })
+      }
+
+      // Find available port
+      const findAvailablePort = async (startPort) => {
+        let currentPort = startPort
+        while (!(await checkPort(currentPort))) {
+          console.log(`Port ${currentPort} is in use, trying next port...`)
+          currentPort++
+        }
+        updateProgress(50, `Found available port: ${currentPort}`, 2);
+        return currentPort
+      }
+
+      // Initialize application
+      const initApp = async () => {
+        port = await findAvailablePort(port)
+
+        updateProgress(60, 'Setting up server...', 3);
+        const app = express()
+        app.use(express.static(outDir))
+
+        updateProgress(70, 'Configuring routes...', 3);
+
+        app.use((req, res, next) => {
+          if (!path.extname(req.path)) {
+            res.sendFile(path.join(outDir, 'index.html'))
+          } else {
+            next()
+          }
+        })
+
+        updateProgress(80, 'Starting server...', 3);
+
+        app.listen(port, '127.0.0.1', () => {
+          updateProgress(100, `Server running at http://localhost:${port}`, 4);
+
+          // Short delay before redirecting to show 100% completion
+          setTimeout(() => {
+            window.location.replace(`http://localhost:${port}`)
+            // window.location.replace(`http://localhost:3011`)
+          }, 300);
+        })
+      }
+
+      initApp()
+
+    }
+  </script>
+</body>
+
+</html>

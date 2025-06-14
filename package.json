@@ -1,0 +1,21 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "main": "index.html",
+  "node-remote": "<all_urls>",
+  "chromium-args": "--no-sandbox",
+  "window": {
+    "icon": "logo.png",
+    "width": 785,
+    "height": 720,
+    "use_content_size": true,
+    "resizable": false,
+    "min_width": 785,
+    "min_height": 720,
+    "max_width": 785,
+    "max_height": 720
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
