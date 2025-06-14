@@ -49,8 +49,8 @@ export function CreateWallet() {
   }
 
   const handleCreateWallet = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setCreateLoading(true)
+    // e.preventDefault()
+
     if (password.length < 8) {
       setError(t('passwordMinLength'))
       return
@@ -72,7 +72,7 @@ export function CreateWallet() {
         }
       }
     }
-
+    setCreateLoading(true)
     try {
       // await createWallet(password, referralCode)
       if (typeof window !== 'undefined' && window.IPC) {
@@ -127,7 +127,7 @@ export function CreateWallet() {
           <CardDescription className="text-center text-yellow-600/80 dark:text-yellow-500/80">{t('setYourPassword')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCreateWallet} className="space-y-4">
+          <div  className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="password" className="text-yellow-700 dark:text-yellow-400">
                 {t('walletPassword')}
@@ -185,7 +185,7 @@ export function CreateWallet() {
             {error && <div className="text-sm text-red-500">{error}</div>}
 
             <Button
-              type="submit"
+              onClick={handleCreateWallet}
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700"
               disabled={createLoading || p2pDelay == 0}
             >
@@ -197,7 +197,7 @@ export function CreateWallet() {
                 {t('p2pUnlinked')}
               </div>
             )}
-          </form>
+          </div>
         </CardContent>
         <CardFooter className="border-t border-yellow-200 dark:border-yellow-900/50 pt-4">
           <div className="text-sm text-yellow-600/80 dark:text-yellow-500/80 text-center w-full">{t('termsAndConditions')}</div>
