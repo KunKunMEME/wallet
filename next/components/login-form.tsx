@@ -26,8 +26,6 @@ export function LoginForm() {
     walletStatus.setIsLock(true)
   }, [])
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-
     const { encPassword, getBalance } = window.P2P
 
     const passwordMD = encPassword(password)
@@ -58,7 +56,7 @@ export function LoginForm() {
           <CardDescription className="text-center text-yellow-600/80 dark:text-yellow-500/80">{t('enterPasswordToLogin')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="password" className="text-yellow-700 dark:text-yellow-400">
                 {t('walletPassword')}
@@ -76,13 +74,13 @@ export function LoginForm() {
               </div>
             </div>
             <Button
-              type="submit"
+              onClick={handleLogin}
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700"
               disabled={isLoading}
             >
               {isLoading ? t('loggingIn') : t('login')}
             </Button>
-          </form>
+          </div>
         </CardContent>
       </Card>
     </div>
