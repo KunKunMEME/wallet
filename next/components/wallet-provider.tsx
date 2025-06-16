@@ -191,10 +191,20 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Check for stored language preference
+    // Check for stored language preference, system language, or default to English
     const storedLanguage = localStorage.getItem("language") as Language
     if (storedLanguage && ["zh", "en", "ru"].includes(storedLanguage)) {
       setLanguageState(storedLanguage)
+    } else {
+      // Get system language
+      const systemLang = navigator.language.toLowerCase().split('-')[0]
+      // Check if system language is supported
+      if (["zh", "en", "ru"].includes(systemLang)) {
+        setLanguageState(systemLang as Language)
+      } else {
+        // Default to English if system language is not supported
+        setLanguageState("en")
+      }
     }
   }, [])
 
