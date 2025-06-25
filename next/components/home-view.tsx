@@ -45,7 +45,8 @@ export function HomeView() {
 
     try {
       const balance = await getBalance(walletStore.address, walletStore.key)
-      walletStore.setBalance(balance)
+      walletStore.setBalance(balance.amount)
+      walletStore.setDiscordId(balance.discordId)
     } catch (error: any) {
       if (error?.type === 'error') {
         toast({
@@ -94,10 +95,9 @@ export function HomeView() {
     }
   }
 
-
   const updateSignCooldown = () => {
     if (!lastSignTime?.createAt) {
-      setSignCooldown(100) 
+      setSignCooldown(100)
       return
     }
 
@@ -108,9 +108,8 @@ export function HomeView() {
     setNextTime(new Date(lastSignDate.getTime() + 2 * 60 * 60 * 1000).toLocaleString())
 
     if (hoursDiff >= 2) {
-      setSignCooldown(100) 
+      setSignCooldown(100)
     } else {
-     
       const progress = (hoursDiff / 2) * 100
       setSignCooldown(Math.min(Math.max(progress, 0), 100))
     }
@@ -126,10 +125,8 @@ export function HomeView() {
     getTransferFunc()
   }, [walletStore.address, walletStore.key, page, pageSize])
 
-
   useEffect(() => {
     updateSignCooldown()
-
 
     const interval = setInterval(() => {
       updateSignCooldown()
@@ -141,9 +138,7 @@ export function HomeView() {
   async function onWalletSign() {
     if (!walletStore.address || !walletStore.key) return
 
- 
     if (signCooldown < 100) {
-  
       const lastSignDate = new Date(lastSignTime.createAt)
       const now = new Date()
       const timeDiff = now.getTime() - lastSignDate.getTime()
@@ -176,7 +171,7 @@ export function HomeView() {
     try {
       await walletSign(walletStore.address, walletStore.key)
       getLastSignTimeFunc()
-      setSignCooldown(0) 
+      setSignCooldown(0)
       setIsSignDialogOpen(false)
       setSignVerification('')
 

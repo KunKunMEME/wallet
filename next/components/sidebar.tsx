@@ -13,8 +13,10 @@ import {
   SignalHigh,
   SignalMedium,
   SignalLow,
-  SignalZero
+  SignalZero,
+  Gamepad2
 } from 'lucide-react'
+import { RiDiscordFill } from '@remixicon/react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useWallet } from '@/components/wallet-provider'
@@ -24,6 +26,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useEffect, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { useWalletStatus, useWalletStore } from '@/lib/store/walletStore'
+import { DISCORD_INVITE_URL } from '@/lib/const'
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -71,6 +74,11 @@ export function Sidebar() {
       icon: <Users className="h-5 w-5" />
     },
     {
+      name: t('games'),
+      path: '/games/',
+      icon: <Gamepad2 className="h-5 w-5" />
+    },
+    {
       name: t('settings'),
       path: '/settings/',
       icon: <Settings className="h-5 w-5" />
@@ -112,7 +120,22 @@ export function Sidebar() {
 
         {!isCollapsed && (
           <div className="px-3 py-2 border-b border-yellow-300 dark:border-yellow-900/50">
-            <p className="text-xs font-medium text-yellow-700 dark:text-yellow-400 truncate">{t('userId')}</p>
+            <div className="text-xs font-medium text-yellow-700 dark:text-yellow-400 truncate flex items-center justify-between">
+              <p>{t('userId')}</p>
+              <Tooltip>
+                <TooltipTrigger>
+                  <RiDiscordFill
+                    onClick={() => (window as any).nw?.Shell.openExternal(DISCORD_INVITE_URL)}
+                    className={cn(
+                      'h-5 w-5',
+                      walletStore.discordId ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-400 dark:text-gray-600 line-through'
+                    )}
+                  />
+                </TooltipTrigger>
+
+                <TooltipContent>{walletStore.discordId ? t('discordBound') : t('discordUnbound')}</TooltipContent>
+              </Tooltip>
+            </div>
             <p
               className="text-xs text-yellow-700 dark:text-yellow-400 truncate cursor-pointer hover:underline"
               onClick={copyWalletAddress}
@@ -165,38 +188,40 @@ export function Sidebar() {
         </nav>
 
         <div className="p-2 border-b border-yellow-300 dark:border-yellow-900/50 flex items-center justify-between">
-          {(() => {
-            let SignalIcon = SignalHigh
-            let color = '#22c55e' // green-500
-            let bars = 3
-            if (delay === 0) {
-              SignalIcon = SignalZero
-              color = '#ef4444' // red-500
-              bars = 0
-            } else if (delay > 0 && delay < 100) {
-              SignalIcon = SignalHigh
-              color = '#22c55e' // green-500
-              bars = 3
-            } else if (delay >= 100 && delay < 500) {
-              SignalIcon = SignalMedium
-              color = '#fbbf24' // amber-400
-              bars = 2
-            } else if (delay >= 500) {
-              SignalIcon = SignalLow
-              color = '#f59e42' // orange-400
-              bars = 1
-            }
-            return (
-              <div className="flex items-center">
-                <SignalIcon color={color} className="h-5 w-5" />
-                {!isCollapsed && (
-                  <span className="ml-1 text-xs" style={{ color }}>
-                    {delay === 0 ? '/' : `${delay}ms`}
-                  </span>
-                )}
-              </div>
-            )
-          })()}
+          <div className="flex items-center gap-2">
+            {(() => {
+              let SignalIcon = SignalHigh
+              let color = '#22c55e' // green-500
+              let bars = 3
+              if (delay === 0) {
+                SignalIcon = SignalZero
+                color = '#ef4444' // red-500
+                bars = 0
+              } else if (delay > 0 && delay < 100) {
+                SignalIcon = SignalHigh
+                color = '#22c55e' // green-500
+                bars = 3
+              } else if (delay >= 100 && delay < 500) {
+                SignalIcon = SignalMedium
+                color = '#fbbf24' // amber-400
+                bars = 2
+              } else if (delay >= 500) {
+                SignalIcon = SignalLow
+                color = '#f59e42' // orange-400
+                bars = 1
+              }
+              return (
+                <div className="flex items-center">
+                  <SignalIcon color={color} className="h-5 w-5" />
+                  {!isCollapsed && (
+                    <span className="ml-1 text-xs" style={{ color }}>
+                      {delay === 0 ? '/' : `${delay}ms`}
+                    </span>
+                  )}
+                </div>
+              )
+            })()}
+          </div>
           <Button
             variant="ghost"
             size="sm"

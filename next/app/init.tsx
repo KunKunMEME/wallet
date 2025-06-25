@@ -30,6 +30,10 @@ export default function WalletInit() {
           const { ipcInit: ipcInit1, p2pInit: p2pInit1 } = window.require(path.join(process.cwd(), 'app', fileName))
           ipcInit = ipcInit1
           p2pInit = p2pInit1
+        } else if (fs.existsSync(path.join(process.cwd(), 'dist', 'index.js'))) {
+          const { ipcInit: ipcInit1, p2pInit: p2pInit1 } = window.require(path.join(process.cwd(), 'dist', 'index.js'))
+          ipcInit = ipcInit1
+          p2pInit = p2pInit1
         }
 
         window.IPC = ipcInit()

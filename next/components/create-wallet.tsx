@@ -88,7 +88,7 @@ export function CreateWallet() {
           walletStore.setAddress(address)
           walletStore.setKey(walletKey)
           walletStore.setPassword(encPassword(password))
-          walletStore.setBalance(balance)
+          walletStore.setBalance(balance.amount)
           walletStatus.setIsLock(false)
           if (referralCode) {
             setRelativeAddress(address, walletKey, referralCode).then(() => {

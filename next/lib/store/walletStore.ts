@@ -16,6 +16,8 @@ interface WalletStore {
   setPassword: (password: string) => void
   setReferralAddress: (referralAddress: string) => void
   setChainAddress: (chainAddress: string) => void
+  discordId: string
+  setDiscordId: (discordId: string) => void
 }
 
 export const useWalletStore = create<WalletStore>()(
@@ -34,7 +36,9 @@ export const useWalletStore = create<WalletStore>()(
       setBalance: (balance: string) => set({ balance }),
       setPassword: (password: string) => set({ password }),
       setReferralAddress: (referralAddress: string) => set({ referralAddress }),
-      setChainAddress: (chainAddress: string) => set({ chainAddress })
+      setChainAddress: (chainAddress: string) => set({ chainAddress }),
+      discordId: '',
+      setDiscordId: (discordId: string) => set({ discordId })
     }),
     {
       name: 'wallet-store'

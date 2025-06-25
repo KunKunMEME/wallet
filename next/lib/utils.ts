@@ -122,3 +122,4 @@ export function formatTimeToMonthDayHourMinute(timeStr: string): string {
 
   return `${month}/${day} ${hourStr}:${roundedMinutes}`
 }
+

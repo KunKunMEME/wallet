@@ -5,6 +5,11 @@ import type { Language } from '@/components/wallet-provider'
 
 // Translation dictionary
 const translations: Record<string, Record<Language, string>> = {
+  games: {
+    en: 'Games',
+    zh: '游戏',
+    ru: 'Игры'
+  },
   p2pUnlinked: {
     en: 'P2P unlinked',
     zh: 'P2P 未连接',
@@ -520,6 +525,56 @@ const translations: Record<string, Record<Language, string>> = {
     en: 'Wallet Address',
     zh: '钱包地址',
     ru: 'Адрес кошелька'
+  },
+  discordBound: {
+    en: 'Discord account bound',
+    zh: 'Discord账号已绑定',
+    ru: 'Аккаунт Discord привязан'
+  },
+  discordUnbound: {
+    en: 'Discord account not bound',
+    zh: 'Discord账号未绑定',
+    ru: 'Аккаунт Discord не привязан'
+  },
+  discordManagement: {
+    en: 'Discord Account Management',
+    zh: 'Discord账号管理',
+    ru: 'Управление аккаунтом Discord'
+  },
+  discordBindStatus: {
+    en: 'Discord Binding Status',
+    zh: 'Discord绑定状态',
+    ru: 'Статус привязки Discord'
+  },
+  unbindDiscord: {
+    en: 'Unbind Discord',
+    zh: '解除Discord绑定',
+    ru: 'Отвязать Discord'
+  },
+  confirmUnbindDiscord: {
+    en: 'Are you sure you want to unbind your Discord account?',
+    zh: '确定要解除Discord账号绑定吗？',
+    ru: 'Вы уверены, что хотите отвязать свой аккаунт Discord?'
+  },
+  discordUnbindSuccess: {
+    en: 'Discord account unbound successfully',
+    zh: 'Discord账号解绑成功',
+    ru: 'Аккаунт Discord успешно отвязан'
+  },
+  bindDiscordGuide: {
+    en: 'Go to Discord and bind your account',
+    zh: '前往Discord绑定您的账号',
+    ru: 'Перейдите в Discord и привяжите свой аккаунт'
+  },
+  bindDiscordDescription: {
+    en: 'Join our Discord server and use the bot command to bind your wallet',
+    zh: '加入我们的Discord服务器并使用机器人命令绑定您的钱包',
+    ru: 'Присоединяйтесь к нашему серверу Discord и используйте команду бота для привязки кошелька'
+  },
+  joinDiscord: {
+    en: 'Join Discord',
+    zh: '加入Discord',
+    ru: 'Присоединиться к Discord'
   },
   registrationDate: {
     en: 'Registration Date',
