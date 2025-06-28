@@ -1,4 +1,4 @@
-// File: D:\Amumu\kunkun2\wallet_next\app\mining\page.tsx
+// File: D:\JavaScript\kunkun2\wallet_next\app\mining\page.tsx
 import * as entry from '../../../../app/mining/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

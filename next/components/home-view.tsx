@@ -151,6 +151,7 @@ export function HomeView() {
         description: `${t('nextSignIn')} ${Math.floor(remainingHours)}h ${remainingMinutes}m`,
         variant: 'default'
       })
+
       return
     }
 
@@ -202,22 +203,29 @@ export function HomeView() {
   const getTransactionIcon = (amount: string) => {
     if (+amount > 0) {
       return <ArrowDownLeft className="h-5 w-5 text-green-600" />
+    } else if (+amount < 0) {
+      return <ArrowUpRight className="h-5 w-5 text-red-600" />
     }
-    return <ArrowUpRight className="h-5 w-5 text-red-600" />
+
+    return <ArrowDownLeft className="h-5 w-5 text-gray-400" />
   }
 
   const getTransactionBg = (amount: string) => {
     if (+amount > 0) {
       return 'bg-green-100 dark:bg-green-900/30'
+    } else if (+amount < 0) {
+      return 'bg-red-100 dark:bg-red-900/30'
     }
-    return 'bg-red-100 dark:bg-red-900/30'
+    return ''
   }
 
   const getTransactionColor = (amount: string) => {
     if (+amount > 0) {
       return 'text-green-600 dark:text-green-400'
+    } else if (+amount < 0) {
+      return 'text-red-600 dark:text-red-400'
     }
-    return 'text-red-600 dark:text-red-400'
+    return 'text-gray-400'
   }
 
   const handleWithdrawClick = () => {

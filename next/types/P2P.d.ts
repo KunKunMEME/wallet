@@ -12,4 +12,5 @@ interface P2P {
   walletSign: (address: string, key: string) => Promise<void>
   getLastSignTime: (address: string) => Promise<LastSignTime>
   unbindDiscordId: (key: string, address: string) => Promise<{}>
+  onPrc: (type: string, data: Record<string, any>, key: string) => Promise<Record<string, any>>
 }
