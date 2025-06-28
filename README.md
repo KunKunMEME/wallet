@@ -1,4 +1,4 @@
-# 🐔 KUNKUN Wallet — Version V1.0.1
+# 🐔 KUNKUN Wallet — Version V1.6.1
 
 Welcome to the official wallet of **KUNKUN**, the meme-powered blockchain revolution.  
 Whether you’re here to mine, claim airdrops, or just vibe with the chicken, this wallet has you covered.
